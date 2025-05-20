@@ -43,6 +43,9 @@
         <div class="subinfo">
           <img class = "profile" src="/img/profile.png" alt="">
           <p class = "user"><%= communityResult.user_id %></p>
+           <% if (item.relation_reveal && item.relation_info) { %>
+            <p>환자와의 관계: <%= item.relation_info.relation %></p>
+          <% } %>
           <p class="time"> <%= communityResult.updated_at %></p>
         </div>
           <div class="view_wrapper">
