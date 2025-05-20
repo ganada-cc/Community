@@ -1,10 +1,10 @@
-async function selectCommunity(pool, boardId, title) {
+async function selectCommunity(pool, boardId) {
     const selectBoardQuery = `
         SELECT *
         FROM board
         WHERE board_id = ?`;
         
-    const [boardRows] = await pool.promise().query(selectBoardQuery, boardId, title);
+    const [boardRows] = await pool.promise().query(selectBoardQuery, boardId);
     
     const list = boardRows.length > 0 ? boardRows.map(row => ({
       category_name : row.category_name, 
@@ -31,13 +31,13 @@ async function selectMyPost(pool, user_id) {
      })) : [];
   return list;
 }
-async function selectOtherPost(pool, user_id, boardId, title) {
+async function selectOtherPost(pool, user_id) {
   const selectCommunityQuery = `
     SELECT title, board_id
     FROM board
     WHERE user_id != ?
   `;
-  const [communityPosts] = await pool.promise().query(selectCommunityQuery,user_id, boardId, title);
+  const [communityPosts] = await pool.promise().query(selectCommunityQuery,user_id);
   const list = communityPosts.length > 0 ? communityPosts.map(row => ({
     board_id : row.board_id,
     title : row.title
@@ -45,13 +45,13 @@ async function selectOtherPost(pool, user_id, boardId, title) {
   return list;
 }
 
-async function selectComment(pool, boardId, title) {
+async function selectComment(pool, boardId) {
   const selectCommentQuery = `
   SELECT *
   FROM reply
   WHERE board_id = ?`;
       
-  const [commentRows] = await pool.promise().query(selectCommentQuery, boardId, title);
+  const [commentRows] = await pool.promise().query(selectCommentQuery, boardId);
   
   const list = commentRows.length > 0 ? commentRows.map(row => ({
     category_name : row.category_name, 
@@ -79,7 +79,7 @@ async function incrementViewsCount(pool, boardId) {
 
 //getList
 // get 고민상담소 리스트
-async function getWorryList(pool, user_id, page) {
+async function getWorryList(pool, page) {
   const ITEMS_PER_PAGE = 9; // 한 페이지에 보여줄 게시글 수
 
   // 클라이언트에서 요청한 페이지 번호를 받아옵니다.
@@ -202,7 +202,7 @@ catch (error) {
 }
 
 // get 정보공유 리스트
-async function getInfoList(pool, user_id, page) {
+async function getInfoList(pool, page) {
     const ITEMS_PER_PAGE = 9; // 한 페이지에 보여줄 게시글 수
 
     // 클라이언트에서 요청한 페이지 번호를 받아옵니다.
