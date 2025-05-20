@@ -3,7 +3,7 @@ const http = require('http');
 async function getRelationFromUserService(userId) {
   return new Promise((resolve, reject) => {
     const options = {
-      hostname: 'user-service', // Docker 환경에서 user-service 컨테이너 이름
+      hostname: 'user', 
       port: 3002,
       path: `/user/relation/${userId}`,
       method: 'GET',
