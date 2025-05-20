@@ -32,4 +32,20 @@ async function getRelationFromUserService(userId) {
   });
 }
 
+// const axios = require('axios');
+
+// async function getRelationFromUserService(userId, token) {
+//   try {
+//     const response = await axios.get(`http://user:3002/user/relation/${userId}`, {
+//       headers: {
+//         Authorization: `Bearer ${token}`, // 필요하면 토큰 포함
+//       }
+//     });
+//     return response.data;
+//   } catch (error) {
+//     throw error;
+//   }
+// }
+
+
 module.exports = { getRelationFromUserService };
