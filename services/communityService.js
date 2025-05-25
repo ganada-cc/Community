@@ -3,7 +3,7 @@ const communityModel = require('../models/communityModel');
 const userClient = require('./userClient');
 
 // 게시글 조회
-exports.retrieveCommunity = async function (boardId) {
+exports.retrieveCommunity = async function (boardId, token) {
     const community = await communityModel.selectCommunity(pool, boardId);
     if (!community || community.length === 0) return null;
 
@@ -12,7 +12,7 @@ exports.retrieveCommunity = async function (boardId) {
     let relationInfo = null;
     if (post.relation_reveal) {
         try {
-            relationInfo = await userClient.getRelationFromUserService(post.user_id);
+            relationInfo = await userClient.getRelationFromUserService(post.user_id, token);
         } catch (err) {
             console.error('user-service 호출 실패:', err.message);
         }

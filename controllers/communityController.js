@@ -22,7 +22,7 @@ exports.getCommunity = async function (req, res) {
       }
       const board_id = req.params.board_id;
       const title = req.params.title;
-      const communityResult = await communityService.retrieveCommunity(board_id, title);
+      const communityResult = await communityService.retrieveCommunity(board_id, token);
       
       const commentResult = await communityService.retrieveComment(board_id, title);
       const myPostResult = await communityService.retriveMyPost(user_id);

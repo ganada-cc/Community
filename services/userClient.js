@@ -1,12 +1,15 @@
 const http = require('http');
 
-async function getRelationFromUserService(userId) {
+async function getRelationFromUserService(userId, token) {
   return new Promise((resolve, reject) => {
     const options = {
       hostname: 'user', 
       port: 3002,
       path: `/user/relation/${userId}`,
       method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
     };
 
     const req = http.request(options, (res) => {
