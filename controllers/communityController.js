@@ -298,7 +298,7 @@ exports.postBoard = async function (req, res) {
        
         return res.status(200).send(`
         <script>
-            if (confirm('게시글 등록에 성공했습니다.')) {
+            if (confirm('댓글 등록에 성공했습니다.')) {
                 const board_id = ${req.body.board_id}; 
                 window.location.href = "/community/write/" + board_id;
             }
