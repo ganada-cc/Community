@@ -4,7 +4,7 @@ async function selectCommunity(pool, boardId) {
         FROM board
         WHERE board_id = ?`;
         
-    const [boardRows] = await pool.promise().query(selectBoardQuery, boardId);
+    const [boardRows] = await pool.query(selectBoardQuery, boardId);
     
     const list = boardRows.length > 0 ? boardRows.map(row => ({
       category_name : row.category_name, 
@@ -24,7 +24,7 @@ async function selectMyPost(pool, user_id) {
     FROM board
     WHERE user_id = ?
   `
-  const [userPostingRow] = await pool.promise().query(selectMyPostQuery, user_id);
+  const [userPostingRow] = await pool.query(selectMyPostQuery, user_id);
   const list = userPostingRow.length > 0 ? userPostingRow.map(row => ({
     board_id : row.board_id,
     title : row.title
@@ -37,7 +37,7 @@ async function selectOtherPost(pool, user_id) {
     FROM board
     WHERE user_id != ?
   `;
-  const [communityPosts] = await pool.promise().query(selectCommunityQuery,user_id);
+  const [communityPosts] = await pool.query(selectCommunityQuery,user_id);
   const list = communityPosts.length > 0 ? communityPosts.map(row => ({
     board_id : row.board_id,
     title : row.title
@@ -51,7 +51,7 @@ async function selectComment(pool, boardId) {
   FROM reply
   WHERE board_id = ?`;
       
-  const [commentRows] = await pool.promise().query(selectCommentQuery, boardId);
+  const [commentRows] = await pool.query(selectCommentQuery, boardId);
   
   const list = commentRows.length > 0 ? commentRows.map(row => ({
     category_name : row.category_name, 
@@ -73,7 +73,7 @@ async function incrementViewsCount(pool, boardId) {
       SET views = views + 1
       WHERE board_id = ?`;
 
-      const [viewRows] = await pool.promise().query(updateViewsCountQuery, boardId);
+      const [viewRows] = await pool.query(updateViewsCountQuery, boardId);
       return viewRows;
 }
 
@@ -95,7 +95,7 @@ async function getWorryList(pool, page) {
   
   ;
 
-  const [listRows] = await pool.promise().query(getListQuery);
+  const [listRows] = await pool.query(getListQuery);
 
   const list = listRows.length > 0 ? listRows.map(row => ({
      board_id : row.board_id,
@@ -126,7 +126,7 @@ LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset};`
 
 ;
 
-const [listRows] = await pool.promise().query(getListQuery, user_id);
+const [listRows] = await pool.query(getListQuery, user_id);
 
 const list = listRows.length > 0 ? listRows.map(row => ({
    board_id : row.board_id,
@@ -162,11 +162,11 @@ const minutes = new Date(originalDate).getMinutes(); // Local time in Seoul (min
 async function insertBoardInfo(pool, insertBoardParams){
  
     const insertBoardQuery = `
-      INSERT INTO board (category_name, user_id, title, content, updated_at, views) VALUES (?, ?, ?, ?, ?, ?);
+      INSERT INTO board (category_name, user_id, title, content, updated_at, views, relation_reveal) VALUES (?, ?, ?, ?, ?, ?, ?);
     `;
     
     
-  const connection = await pool.promise().getConnection();
+  const connection = await pool.getConnection();
   
   try {
       await connection.query(insertBoardQuery, insertBoardParams);
@@ -186,7 +186,7 @@ const insertCommentQuery = `
 `;
 
 
-const connection = await pool.promise().getConnection();
+const connection = await pool.getConnection();
 
 try {
 //await connection.query(baseCommentQuery, baseCommentParams);
@@ -218,7 +218,7 @@ async function getInfoList(pool, page) {
     
     ;
 
-    const [listRows] = await pool.promise().query(getListQuery);
+    const [listRows] = await pool.query(getListQuery);
 
     const list = listRows.length > 0 ? listRows.map(row => ({
        board_id : row.board_id,
@@ -249,7 +249,7 @@ async function getMyInfoList(pool, user_id, page) {
   
   ;
 
-  const [listRows] = await pool.promise().query(getListQuery, user_id);
+  const [listRows] = await pool.query(getListQuery, user_id);
 
   const list = listRows.length > 0 ? listRows.map(row => ({
      board_id : row.board_id,
@@ -283,49 +283,7 @@ function formatTime(dateTimeString) {
   const formattedMinutes = String(minutes).padStart(2, '0');
   
   return `${formattedHours}:${formattedMinutes}`;
-}
-  
-async function insertBoardInfo(pool, insertBoardParams){
-   
-      const insertBoardQuery = `
-        INSERT INTO board (category_name, user_id, title, content, updated_at, views) VALUES (?, ?, ?, ?, ?, ?);
-      `;
-      
-      
-    const connection = await pool.promise().getConnection();
-    
-    try {
-        await connection.query(insertBoardQuery, insertBoardParams);
-    } catch (error) {
-        console.log(error);
-        throw error;
-    } finally {
-        connection.release();
-    }
-}  
-async function insertCommentInfo(pool, insertCommentParams){
-
- 
-   
-  const insertCommentQuery = `
-    INSERT INTO reply (user_id, category_name, board_id, content, parent_id) VALUES (?, ?, ?, ?, NULL);
-  `;
-  
-  
-const connection = await pool.promise().getConnection();
-
-  try {
-  //await connection.query(baseCommentQuery, baseCommentParams);
-  await connection.query(insertCommentQuery, insertCommentParams);
-  } 
-  catch (error) {
-      console.log(error);
-      throw error;
-  } finally {
-      connection.release();
-  }
-    
-}
+} 
 
   module.exports = {
     insertBoardInfo,
