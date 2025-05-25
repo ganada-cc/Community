@@ -8,6 +8,7 @@ const layouts = require('express-ejs-layouts');
 const fs = require('fs');
 const cookieParser = require('cookie-parser');
 const communityRouter = require('./routes/communityRoute');
+const usersRouter = require('./routes/usersRoute');
 
 const app = express();
 const port = 3000;
@@ -38,6 +39,7 @@ app.use(cors());
 
 // 커뮤니티 라우터만 등록
 app.use('/community', communityRouter);
+app.use('/users', usersRouter);
 
 // 기본 페이지
 app.get('/', (req, res) => {
