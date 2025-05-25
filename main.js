@@ -2,7 +2,7 @@
 require('dotenv').config({ path: './config/database.env' });
 
 const express = require('express');
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 const cors = require('cors');
 const layouts = require('express-ejs-layouts');
 const fs = require('fs');
