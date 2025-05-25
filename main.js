@@ -28,9 +28,7 @@ const port = 3000,
     fs = require("fs"),
     layouts = require("express-ejs-layouts"),
     usersRouter = require('./routes/usersRoute'),
-    communityRouter = require('./routes/communityRoute'),
-    sanitizeHtml = require('sanitize-html'),
-    puppeteer = require('puppeteer');
+    communityRouter = require('./routes/communityRoute');
 
 const cookieParser = require('cookie-parser');
 

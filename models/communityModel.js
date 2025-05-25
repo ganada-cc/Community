@@ -1,10 +1,10 @@
-async function selectCommunity(pool, boardId) {
+async function selectCommunity(pool, boardId, title) {
     const selectBoardQuery = `
         SELECT *
         FROM board
         WHERE board_id = ?`;
         
-    const [boardRows] = await pool.query(selectBoardQuery, boardId);
+    const [boardRows] = await pool.query(selectBoardQuery, boardId, title);
     
     const list = boardRows.length > 0 ? boardRows.map(row => ({
       category_name : row.category_name, 
@@ -31,13 +31,13 @@ async function selectMyPost(pool, user_id) {
      })) : [];
   return list;
 }
-async function selectOtherPost(pool, user_id) {
+async function selectOtherPost(pool, user_id, boardId, title) {
   const selectCommunityQuery = `
     SELECT title, board_id
     FROM board
     WHERE user_id != ?
   `;
-  const [communityPosts] = await pool.query(selectCommunityQuery,user_id);
+  const [communityPosts] = await pool.query(selectCommunityQuery,user_id, boardId, title);
   const list = communityPosts.length > 0 ? communityPosts.map(row => ({
     board_id : row.board_id,
     title : row.title
@@ -45,13 +45,13 @@ async function selectOtherPost(pool, user_id) {
   return list;
 }
 
-async function selectComment(pool, boardId) {
+async function selectComment(pool, boardId, title) {
   const selectCommentQuery = `
   SELECT *
   FROM reply
   WHERE board_id = ?`;
       
-  const [commentRows] = await pool.query(selectCommentQuery, boardId);
+  const [commentRows] = await pool.query(selectCommentQuery, boardId, title);
   
   const list = commentRows.length > 0 ? commentRows.map(row => ({
     category_name : row.category_name, 
@@ -79,7 +79,7 @@ async function incrementViewsCount(pool, boardId) {
 
 //getList
 // get 고민상담소 리스트
-async function getWorryList(pool, page) {
+async function getWorryList(pool, user_id, page) {
   const ITEMS_PER_PAGE = 9; // 한 페이지에 보여줄 게시글 수
 
   // 클라이언트에서 요청한 페이지 번호를 받아옵니다.
@@ -202,7 +202,7 @@ catch (error) {
 }
 
 // get 정보공유 리스트
-async function getInfoList(pool, page) {
+async function getInfoList(pool, user_id, page) {
     const ITEMS_PER_PAGE = 9; // 한 페이지에 보여줄 게시글 수
 
     // 클라이언트에서 요청한 페이지 번호를 받아옵니다.
@@ -283,7 +283,49 @@ function formatTime(dateTimeString) {
   const formattedMinutes = String(minutes).padStart(2, '0');
   
   return `${formattedHours}:${formattedMinutes}`;
-} 
+}
+  
+async function insertBoardInfo(pool, insertBoardParams){
+   
+      const insertBoardQuery = `
+        INSERT INTO board (category_name, user_id, title, content, updated_at, views) VALUES (?, ?, ?, ?, ?, ?);
+      `;
+      
+      
+    const connection = await pool.getConnection();
+    
+    try {
+        await connection.query(insertBoardQuery, insertBoardParams);
+    } catch (error) {
+        console.log(error);
+        throw error;
+    } finally {
+        connection.release();
+    }
+}  
+async function insertCommentInfo(pool, insertCommentParams){
+
+ 
+   
+  const insertCommentQuery = `
+    INSERT INTO reply (user_id, category_name, board_id, content, parent_id) VALUES (?, ?, ?, ?, NULL);
+  `;
+  
+  
+const connection = await pool.getConnection();
+
+  try {
+  //await connection.query(baseCommentQuery, baseCommentParams);
+  await connection.query(insertCommentQuery, insertCommentParams);
+  } 
+  catch (error) {
+      console.log(error);
+      throw error;
+  } finally {
+      connection.release();
+  }
+    
+}
 
   module.exports = {
     insertBoardInfo,
