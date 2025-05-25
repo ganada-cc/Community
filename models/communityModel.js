@@ -162,7 +162,7 @@ const minutes = new Date(originalDate).getMinutes(); // Local time in Seoul (min
 async function insertBoardInfo(pool, insertBoardParams){
  
     const insertBoardQuery = `
-      INSERT INTO board (category_name, user_id, title, content, updated_at, views) VALUES (?, ?, ?, ?, ?, ?);
+      INSERT INTO board (category_name, user_id, title, content, updated_at, views, relation_reveal) VALUES (?, ?, ?, ?, ?, ?, ?);
     `;
     
     
@@ -283,49 +283,7 @@ function formatTime(dateTimeString) {
   const formattedMinutes = String(minutes).padStart(2, '0');
   
   return `${formattedHours}:${formattedMinutes}`;
-}
-  
-async function insertBoardInfo(pool, insertBoardParams){
-   
-      const insertBoardQuery = `
-        INSERT INTO board (category_name, user_id, title, content, updated_at, views) VALUES (?, ?, ?, ?, ?, ?);
-      `;
-      
-      
-    const connection = await pool.promise().getConnection();
-    
-    try {
-        await connection.query(insertBoardQuery, insertBoardParams);
-    } catch (error) {
-        console.log(error);
-        throw error;
-    } finally {
-        connection.release();
-    }
-}  
-async function insertCommentInfo(pool, insertCommentParams){
-
- 
-   
-  const insertCommentQuery = `
-    INSERT INTO reply (user_id, category_name, board_id, content, parent_id) VALUES (?, ?, ?, ?, NULL);
-  `;
-  
-  
-const connection = await pool.promise().getConnection();
-
-  try {
-  //await connection.query(baseCommentQuery, baseCommentParams);
-  await connection.query(insertCommentQuery, insertCommentParams);
-  } 
-  catch (error) {
-      console.log(error);
-      throw error;
-  } finally {
-      connection.release();
-  }
-    
-}
+} 
 
   module.exports = {
     insertBoardInfo,
