@@ -1,5 +1,4 @@
 //connect database
-require('dotenv').config({path: "./config/database.env"});
 const mysql = require('mysql2/promise');
 
 const requiredEnvVars = [
