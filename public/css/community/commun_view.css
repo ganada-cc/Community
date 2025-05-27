@@ -4,7 +4,7 @@ h1 {
 
 .community_wrapper {    
     /* height: 550px; */
-    margin-top: 120px;
+    margin-top: 50px;
     height: 120vh;   
 }
 section{
@@ -202,12 +202,18 @@ button{
 
 .subinfo {
     width: 80%;
-    height: 50px;
+    height: 150px;
     margin: 0 auto;
     
     line-height: 30px;
     font-size: medium;
 }
+.relation-text,
+.time {
+    margin-left: 10px; /* 20px만큼 왼쪽에서 떨어뜨림 */
+
+}
+
 .profile {
     width: 45px;
     height: 45px;
@@ -248,7 +254,7 @@ button{
         border-radius: 30px;
     }
     .community_wrapper {
-        margin-top: 15%;
+        margin-top: 5%;
     }
     button{
         font-size: 10px;
@@ -296,7 +302,7 @@ button{
       
     }
     .community_wrapper {
-        margin-top: 10%;
+        margin-top: 5%;
     }
     button{
         width: 150px;
@@ -332,7 +338,7 @@ button{
         height: auto;
     }
     .community_wrapper {
-        margin-top: 15%;
+        margin-top: 5%;
     }
     button{
         width: 150px;
