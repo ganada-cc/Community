@@ -1,6 +1,22 @@
 //connect database
 require('dotenv').config({path: "./config/database.env"});
 const mysql = require('mysql2/promise');
+
+const requiredEnvVars = [
+  { key: 'PORT', message: 'Missing community env: PORT' },
+  { key: 'DB_HOST', message: 'Missing community env: DB_HOST' },
+  { key: 'DB_USER', message: 'Missing community env: DB_USER' },
+  { key: 'DB_PW', message: 'Missing community env: DB_PW' },
+  { key: 'DB_PORT', message: 'Missing community env: DB_PORT' },
+  { key: 'DB_NAME', message: 'Missing community env: DB_NAME' },
+];
+
+for (const env of requiredEnvVars) {
+  if (!process.env[env.key]) {
+    throw new Error(env.message);
+  }
+}
+
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -14,14 +30,8 @@ const pool = mysql.createPool({
 
 module.exports = pool;  //모듈로 내보내기
 
-// 스케줄링을 위한 패키지 추가
-// const schedule = require('node-schedule');
-// // require('dotenv').config({path: "./config/sens.env"}); // sens.env 불러오기
-
-// require('dotenv').config({path: "./config/gpt.env"}); // gpt.env 불러오기
-
 // 기본 설정
-const port = 3000,
+const port = process.env.PORT,
     express = require("express"),
     cors = require("cors")
     app = express(),
