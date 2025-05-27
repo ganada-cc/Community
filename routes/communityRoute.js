@@ -12,12 +12,6 @@ router.get(
     "/write", communityController.getWrite
 );
 router.get("/write/:board_id", communityController.getCommunity);
-// router.get(
-//     "/write/:title/:board_id", (req, res) => {
-//         res.render("community/commun_view.ejs");
-//     }
-// )
-// router.get("/write/:board_id", communityController.getCommunity);
 
 router.get(
     "/write/view", (req, res) => {

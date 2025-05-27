@@ -1,6 +1,22 @@
 //connect database
 require('dotenv').config({path: "./config/database.env"});
-const mysql = require ('mysql2');
+const mysql = require('mysql2/promise');
+
+const requiredEnvVars = [
+  { key: 'PORT', message: 'Missing community env: PORT' },
+  { key: 'DB_HOST', message: 'Missing community env: DB_HOST' },
+  { key: 'DB_USER', message: 'Missing community env: DB_USER' },
+  { key: 'DB_PW', message: 'Missing community env: DB_PW' },
+  { key: 'DB_PORT', message: 'Missing community env: DB_PORT' },
+  { key: 'DB_NAME', message: 'Missing community env: DB_NAME' },
+];
+
+for (const env of requiredEnvVars) {
+  if (!process.env[env.key]) {
+    throw new Error(env.message);
+  }
+}
+
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -14,26 +30,15 @@ const pool = mysql.createPool({
 
 module.exports = pool;  //모듈로 내보내기
 
-// 스케줄링을 위한 패키지 추가
-const schedule = require('node-schedule');
-require('dotenv').config({path: "./config/sens.env"}); // sens.env 불러오기
-
-require('dotenv').config({path: "./config/gpt.env"}); // gpt.env 불러오기
-
 // 기본 설정
-const port = 3000,
+const port = process.env.PORT,
     express = require("express"),
     cors = require("cors")
     app = express(),
     fs = require("fs"),
     layouts = require("express-ejs-layouts"),
-    calendarRouter = require('./routes/calendarRoute'),
     usersRouter = require('./routes/usersRoute'),
-    reminderRouter = require('./routes/reminderRoute'),
-    communityRouter = require('./routes/communityRoute'),
-    sanitizeHtml = require('sanitize-html'),
-    exportRouter = require('./routes/exportRoute'),
-    puppeteer = require('puppeteer');
+    communityRouter = require('./routes/communityRoute');
 
 const cookieParser = require('cookie-parser');
 
@@ -47,23 +52,19 @@ app.use(express.json());
 app.use(cookieParser());
 
 //라우터 등록
-app.use('/calendar', calendarRouter);
 app.use('/users', usersRouter);
-app.use('/reminder', reminderRouter);
-app.use('/community', communityRouter)
-app.use('/export', exportRouter);
+app.use('/community', communityRouter);
 
-reminderController = require('./controllers/reminderController');
 
 //주기적인 작업 스케줄링
-schedule.scheduleJob('* * * * *', function() { //1분
-    reminderController.sendSMS();
-  });
+// schedule.scheduleJob('* * * * *', function() { //1분
+//     reminderController.sendSMS();
+//   });
   
 // root - 로그인
 app.get(
     "/", (req,res) =>
-    {res.render("users/login.ejs");}
+    {res.render("users/login");}
 );
 
 
@@ -77,6 +78,30 @@ app.listen(port,() => {
   }
 );
 
+
+async function testConnection() {
+  try {
+    const connection = await mysql.createConnection({
+      host: 'cc-db.c32segwywmue.ap-northeast-2.rds.amazonaws.com',
+      user: 'admin',
+      password: 'admin12345',
+      port: 3306,
+      database: 'community',
+    });
+
+    console.log('✅ DB 연결 성공!');
+
+    // 테스트 쿼리 (예: SHOW TABLES)
+    const [rows] = await connection.query('SHOW TABLES');
+    console.log('📦 현재 테이블 목록:', rows);
+
+    await connection.end();
+  } catch (error) {
+    console.error('❌ DB 연결 실패:', error.message);
+  }
+}
+
+testConnection();
 
 // const spawn = require('child_process').spawn;
 

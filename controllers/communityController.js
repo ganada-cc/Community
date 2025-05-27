@@ -22,7 +22,7 @@ exports.getCommunity = async function (req, res) {
       }
       const board_id = req.params.board_id;
       const title = req.params.title;
-      const communityResult = await communityService.retrieveCommunity(board_id, title);
+      const communityResult = await communityService.retrieveCommunity(board_id, token);
       
       const commentResult = await communityService.retrieveComment(board_id, title);
       const myPostResult = await communityService.retriveMyPost(user_id);
@@ -298,7 +298,7 @@ exports.postBoard = async function (req, res) {
        
         return res.status(200).send(`
         <script>
-            if (confirm('게시글 등록에 성공했습니다.')) {
+            if (confirm('댓글 등록에 성공했습니다.')) {
                 const board_id = ${req.body.board_id}; 
                 window.location.href = "/community/write/" + board_id;
             }
