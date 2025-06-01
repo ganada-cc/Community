@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: community
-        image: elive7/community 
+        image: elive7/community:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 80
