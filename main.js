@@ -36,7 +36,7 @@ const port = process.env.PORT,
     app = express(),
     fs = require("fs"),
     layouts = require("express-ejs-layouts"),
-    usersRouter = require('./routes/usersRoute'),
+    //usersRouter = require('./routes/usersRoute'),
     communityRouter = require('./routes/communityRoute');
 
 const cookieParser = require('cookie-parser');
@@ -51,7 +51,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 //라우터 등록
-app.use('/users', usersRouter);
+//app.use('/users', usersRouter);
 app.use('/community', communityRouter);
 
   
