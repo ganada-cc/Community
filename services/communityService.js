@@ -14,7 +14,7 @@ exports.retrieveCommunity = async function (boardId, token) {
         try {
             relationInfo = await userClient.getRelationFromUserService(post.user_id, token);
         } catch (err) {
-            console.error('user-service 호출 실패:', err.message);
+            console.error('user-service 호출 실패:' , err.message);
         }
     }
 
