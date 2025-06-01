@@ -7,22 +7,12 @@ const querystring = require('querystring');
 
 //게시글 세부 조회 + 댓글 조회
 exports.getCommunity = async function (req, res) {
-    const token = req.cookies.x_auth;
+    const user_id = "test";
     
-    if(token) {
-      const decodedToken = jwt.verify(token, secret.jwtsecret); // 토큰 검증, 복호화 
-      const user_id = decodedToken.user_id; // user_id를 추출
-
-      // validation
-      if(!user_id) {
-        return res.send(errResponse(baseResponse.USER_USERIDX_EMPTY));
-      } 
-      if (user_id <= 0) {
-          return res.send(errResponse(baseResponse.USER_USERIDX_LENGTH));
-      }
       const board_id = req.params.board_id;
       const title = req.params.title;
-      const communityResult = await communityService.retrieveCommunity(board_id, token);
+      // const communityResult = await communityService.retrieveCommunity(board_id, token);
+      const communityResult = await communityService.retrieveCommunity(board_id, user_id);
       
       const commentResult = await communityService.retrieveComment(board_id, title);
       const myPostResult = await communityService.retriveMyPost(user_id);
@@ -43,27 +33,13 @@ exports.getCommunity = async function (req, res) {
     console.log("combindedData",combinedData);
       //console.log(communityResult.title);
       return res.render('community/commun_view.ejs', combinedData);
-    }
-   else {
-    return res.redirect('/');
-   }
 }
 
 exports.getWrite = async function (req, res) {
-  const token = req.cookies.x_auth;
-    
-    if(token) {
-      const decodedToken = jwt.verify(token, secret.jwtsecret); // 토큰 검증, 복호화 
-      const user_id = decodedToken.user_id; // user_id를 추출
+  const user_id = "test";
+   
       const board_id = req.params.board_id;
       const title = req.params.title;
-      // validation
-      if(!user_id) {
-        return res.send(errResponse(baseResponse.USER_USERIDX_EMPTY));
-      } 
-      if (user_id <= 0) {
-          return res.send(errResponse(baseResponse.USER_USERIDX_LENGTH));
-      }
       //나의 게시물
      const myPostResult = await communityService.retriveMyPost(user_id); 
      const limitedPosts = myPostResult.slice(0, 7);
@@ -86,26 +62,12 @@ exports.getWrite = async function (req, res) {
         // 데스크탑 화면일 경우 desktop.ejs 렌더링
         return res.render('community/commun_write.ejs', combinedData);
       }
-    }
-    else {
-      return res.redirect('/');
-    }
   }
 
 //게시글 고민상담소 리스트 조회
 exports.getWorryList = async function (req, res) {
-  const token = req.cookies.x_auth;
-  if (token) {
+  const user_id = "test";
       try {
-          const decodedToken = jwt.verify(token, secret.jwtsecret);
-          const user_id = decodedToken.user_id;
-
-          if (!user_id) {
-              return res.send(baseResponse.USER_USERIDX_EMPTY);
-          }
-          if (user_id <= 0) {
-              return res.send(baseResponse.USER_USERIDX_LENGTH);
-          }
           if (!req.query.page){
             const existingQueryString = req.query;
     
@@ -136,25 +98,12 @@ exports.getWorryList = async function (req, res) {
       } catch (err) {
           return res.send('Error occurred during token verification or community retrieval.');
       }
-  } else {
-      return res.redirect('/');
-  }
 };
 
 //게시글 정보공유 리스트 조회
 exports.getInfoList = async function (req, res) {
-    const token = req.cookies.x_auth;
-    if (token) {
+    const user_id = "test";
         try {
-            const decodedToken = jwt.verify(token, secret.jwtsecret);
-            const user_id = decodedToken.user_id;
-
-            if (!user_id) {
-                return res.send(baseResponse.USER_USERIDX_EMPTY);
-            }
-            if (user_id <= 0) {
-                return res.send(baseResponse.USER_USERIDX_LENGTH);
-            }
             if (!req.query.page){
               const existingQueryString = req.query;
       
@@ -185,9 +134,6 @@ exports.getInfoList = async function (req, res) {
         } catch (err) {
             return res.send('Error occurred during token verification or community retrieval.');
         }
-    } else {
-        return res.redirect('/');
-    }
 };
 
 //side 게시글 조회 (다른 게시글 보기)
@@ -202,21 +148,10 @@ exports.getComment = async function (req, res) {
 
 //게시글 작성
 exports.postBoard = async function (req, res) {
-    const token = req.cookies.x_auth;
-    if (token) {
-        const decodedToken = jwt.verify(token, secret.jwtsecret); // 토큰 검증, 복호화
-        const user_id = decodedToken.user_id; // user_id를 추출
+    const user_id = "test";
         // console.log(req.body);
         var updated_at = new Date(); 
         console.log(updated_at);
-        //validation
-        if(!user_id) {
-          return res.send(errResponse(baseResponse.USER_USERIDX_EMPTY));
-        } 
-        if (user_id <= 0) {
-          return res.send(errResponse(baseResponse.USER_USERIDX_LENGTH));
-        }
-        
         const {
           category_name,
           title,
@@ -260,26 +195,12 @@ exports.postBoard = async function (req, res) {
         `);
         
       }
-    }
-    else {
-      return res.send('community req error(token)');
-    }
   };
   exports.postComment = async function (req, res) {
-    const token = req.cookies.x_auth;
-    if (token) {
-        const decodedToken = jwt.verify(token, secret.jwtsecret); // 토큰 검증, 복호화
-        const user_id = decodedToken.user_id; // user_id를 추출
+    const user_id = "test";
         // console.log(req.body);
         // var updated_at = new Date(); 
         // console.log(updated_at);
-        //validation
-        if(!user_id) {
-          return res.send(errResponse(baseResponse.USER_USERIDX_EMPTY));
-        } 
-        if (user_id <= 0) {
-          return res.send(errResponse(baseResponse.USER_USERIDX_LENGTH));
-        }
         
         const {
           category_name,
@@ -304,9 +225,7 @@ exports.postBoard = async function (req, res) {
             }
         </script>
     `);
-    
-        
-        
+
       } else
       {
         return res.send(`
@@ -318,9 +237,4 @@ exports.postBoard = async function (req, res) {
         </script>
       `);
       }
-        
-    }
-    else {
-      return res.send('Comment req error(token)');
-    }
   };
