@@ -147,25 +147,27 @@ exports.getComment = async function (req, res) {
 
 //게시글 작성
 exports.postBoard = async function (req, res) {
-    const user_id = "test";
-        // console.log(req.body);
-        var updated_at = new Date(); 
-        console.log(updated_at);
-        const {
-          category_name,
-          title,
-          content,
-          relation_reveal
-      } = req.body;
-      // console.log(req.body.content);
-      const createCommunResponse = await communityService.createBoard(
-        category_name,
-        user_id,
-        title,
-        content,
-        updated_at,
-        relation_reveal
-      );
+      const user_id = "test";
+    var updated_at = new Date(); 
+    console.log(updated_at);
+
+    const {
+      category_name,
+      title,
+      content,
+      relation_reveal: relation_revealRaw // 변수 이름 변경
+    } = req.body;
+
+    const relation_reveal = relation_revealRaw === "true" ? 1 : 0;
+
+    const createCommunResponse = await communityService.createBoard(
+      category_name,
+      user_id,
+      title,
+      content,
+      updated_at,
+      relation_reveal
+    );
       if (createCommunResponse == "성공") {
         if (category_name == "정보게시판"){
             return res.status(200).send(`
