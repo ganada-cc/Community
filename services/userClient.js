@@ -3,24 +3,24 @@ const http = require('http');
 async function getRelationFromUserService(userId, token) {
   return new Promise((resolve, reject) => {
     const options = {
-      hostname: ' "http://user', 
+      hostname: 'user',
       port: 80,
       path: `/user/relation/${userId}`,
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
+      method: 'GET'
     };
 
     const req = http.request(options, (res) => {
       let data = '';
 
-      res.on('data', chunk => { data += chunk; });
+      res.on('data', chunk => {
+        data += chunk;
+      });
 
       res.on('end', () => {
         try {
+          console.log('user-service 응답:', data); // 여기서 응답 로그 출력
           const parsed = JSON.parse(data);
-          resolve(parsed); 
+          resolve(parsed.relation);
         } catch (e) {
           reject(e);
         }
