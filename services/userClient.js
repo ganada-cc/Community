@@ -5,7 +5,7 @@ async function getRelationFromUserService(userId, token) {
     const options = {
       hostname: 'user',
       port: 80,
-      path: `/user/relation/${userId}`,
+      path: `/users/relation/${userId}`,
       method: 'GET'
     };
 
