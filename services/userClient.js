@@ -20,7 +20,7 @@ async function getRelationFromUserService(userId, token) {
         try {
           console.log('user-service 응답:', data); // 여기서 응답 로그 출력
           const parsed = JSON.parse(data);
-          resolve(parsed.relation);
+          resolve(parsed.relationship);
         } catch (e) {
           reject(e);
         }

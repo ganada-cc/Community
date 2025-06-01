@@ -154,7 +154,8 @@ exports.postBoard = async function (req, res) {
         const {
           category_name,
           title,
-          content
+          content,
+          relation_reveal
       } = req.body;
       // console.log(req.body.content);
       const createCommunResponse = await communityService.createBoard(
@@ -162,7 +163,8 @@ exports.postBoard = async function (req, res) {
         user_id,
         title,
         content,
-        updated_at
+        updated_at,
+        relation_reveal
       );
       if (createCommunResponse == "성공") {
         if (category_name == "정보게시판"){
