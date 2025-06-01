@@ -39,7 +39,7 @@ jobs:
         uses: google-github-actions/setup-gcloud@v2
         with:
           project_id: ${{ env.PROJECT_ID }}
-          
+
       - name: Install gke-gcloud-auth-plugin
         run: |
           gcloud components install gke-gcloud-auth-plugin
@@ -58,13 +58,13 @@ jobs:
             --from-literal=JWT_SECRET=${{ secrets.JWT_SECRET }} \
             --dry-run=client -o yaml | kubectl apply -f -
 
-      - name: Replace image tag in deployment.yaml
+      - name: Replace image tag in community.yml
         run: |
-          sed -i "s|image: elive7/community:.*|image: elive7/community:${{ github.sha }}|" deployment.yaml
+          sed -i "s|image: elive7/community:.*|image: elive7/community:${{ github.sha }}|" community.yml
 
       - name: Apply Kubernetes Manifests
         run: |
-          kubectl apply -f deployment.yaml
+          kubectl apply -f community.yml
 
       - name: Wait for rollout to complete
         run: |
