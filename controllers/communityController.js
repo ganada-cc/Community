@@ -1,6 +1,5 @@
 const communityService = require('../services/communityService');
 const jwt = require('jsonwebtoken');
-const secret = require('../config/secret');
 const baseResponse = require("../config/baseResponseStatus");
 const path = require('path');
 const querystring = require('querystring');
