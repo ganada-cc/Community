@@ -54,11 +54,6 @@ app.use(cookieParser());
 app.use('/users', usersRouter);
 app.use('/community', communityRouter);
 
-
-//주기적인 작업 스케줄링
-// schedule.scheduleJob('* * * * *', function() { //1분
-//     reminderController.sendSMS();
-//   });
   
 // root - 로그인
 app.get(
@@ -101,15 +96,3 @@ async function testConnection() {
 }
 
 testConnection();
-
-// const spawn = require('child_process').spawn;
-
-// const result = spawn('python', ['graph.py'));
-
-// result.stdout.on('data', function(data) {
-//     console.log(data.toString());
-// });
-
-// result.stderr.on('data', function(data) {
-//     console.log(data.toString());
-// });
