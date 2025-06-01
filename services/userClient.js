@@ -1,6 +1,6 @@
 const http = require('http');
 
-async function getRelationFromUserService(userId, token) {
+async function getRelationFromUserService(userId) {
   return new Promise((resolve, reject) => {
     const options = {
       hostname: 'user',
