@@ -1,4 +1,4 @@
-# 🧀👩🏻‍⚕️치어 (치매 케어) (Cheer) - 마음일기 (Mind Diary)
+# 🧀👩🏻‍⚕️치어 (치매 케어) (Cheer) - 커뮤니티 (Community)
 <b> 팀명 : 가나다</b>
 <p align="center">
   <img src="https://user-images.githubusercontent.com/80445246/245830427-cdd7d976-233b-4f13-bf4c-a9599c9999d8.png" style="width:200px; height:200px">
