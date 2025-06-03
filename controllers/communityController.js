@@ -87,13 +87,8 @@ exports.getWorryList = async function (req, res) {
     if (parseInt(user_id) <= 0) return res.send(baseResponse.USER_USERIDX_LENGTH);
 
     try {
-        if (!req.query.page){
-            const existingQueryString = req.query;
-
-            if (Object.keys(existingQueryString).length === 0) {
-                const newURL = `${req.protocol}://${req.get('host')}${req.originalUrl}?page=1&page1=1`;
-                return res.redirect(newURL);
-            }
+        if (!req.query.page || !req.query.page1) {
+          return res.redirect(`${req.path}?page=1&page1=1`);
         }
         let page = req.query.page;
         let page1 = req.query.page1;
@@ -130,13 +125,8 @@ exports.getInfoList = async function (req, res) {
     if (parseInt(user_id) <= 0) return res.send(baseResponse.USER_USERIDX_LENGTH);
 
     try {
-        if (!req.query.page){
-            const existingQueryString = req.query;
-
-            if (Object.keys(existingQueryString).length === 0) {
-                const newURL = `${req.protocol}://${req.get('host')}${req.originalUrl}?page=1&page1=1`;
-                return res.redirect(newURL);
-            }
+        if (!req.query.page || !req.query.page1) {
+          return res.redirect(`${req.path}?page=1&page1=1`);
         }
         let page = req.query.page;
         let page1 = req.query.page1;
