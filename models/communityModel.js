@@ -3,20 +3,34 @@ async function selectCommunity(pool, boardId) {
         SELECT *
         FROM board
         WHERE board_id = ?`;
-        
+
     const [boardRows] = await pool.query(selectBoardQuery, [boardId]);
-    
-    const list = boardRows.length > 0 ? boardRows.map(row => ({
-      category_name : row.category_name, 
-      user_id : row.user_id,
-      board_id : row.board_id,
-      title : row.title,
-      content : row.content,
-      updated_at : row.updated_at,
-      views : row.views,
-      relation_reveal : row.relation_reveal
-       })) : [];
-    console.log("list:",list);
+
+    const list = boardRows.length > 0 ? boardRows.map(row => {
+        // UTC -> KST 변환
+        const updatedAtKST = new Date(row.updated_at).toLocaleString('ko-KR', {
+            timeZone: 'Asia/Seoul',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
+        });
+
+        return {
+            category_name: row.category_name,
+            user_id: row.user_id,
+            board_id: row.board_id,
+            title: row.title,
+            content: row.content,
+            updated_at: updatedAtKST,
+            views: row.views,
+            relation_reveal: row.relation_reveal
+        };
+    }) : [];
+
+    console.log("list:", list);
     return list;
 }
 
