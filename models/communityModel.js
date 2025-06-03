@@ -147,16 +147,13 @@ async function getMyWorryList(pool, user_id, page) {
   return list;
 }
 
-// 날짜 포맷 함수
 function formatDate(dateTimeString) {
   const date = new Date(dateTimeString);
-  const formatter = new Intl.DateTimeFormat('en-CA', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    timeZone: 'Asia/Seoul',
-  });
-  return formatter.format(date); // 예: "2025-06-04"
+  date.setHours(date.getHours() + 9); // UTC → KST 변환
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`; // 예: "2025-06-04"
 }
 
 function formatTime(dateTimeString) {
