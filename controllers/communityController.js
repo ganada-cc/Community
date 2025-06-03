@@ -17,7 +17,7 @@ exports.getCommunity = async function (req, res) {
       const myPostResult = await communityService.retriveMyPost(user_id);
        //자신의 게시물 개수 제한 7개
        const limitedPosts = myPostResult.slice(0, 7);
-       const otherPostResult = await communityService.retrieveOtherPost(user_id, board_id, title);
+       const otherPostResult = await communityService.retrieveOtherPost(user_id);
        //다른 사람의 게시물 개수 제한 13개
        const limitedOtherPosts = otherPostResult.slice(0, 13);
       console.log(communityResult);

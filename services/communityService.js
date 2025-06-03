@@ -32,9 +32,9 @@ exports.retriveMyPost = async function (user_id) {
 };
 
 // 다른 사람이 쓴 글 전체 조회
-exports.retrieveOtherPost = async function (user_id, board_id, title) {
+exports.retrieveOtherPost = async function (user_id) {
     try {
-        const communityPosts = await communityModel.selectOtherPost(pool, user_id, board_id, title);
+        const communityPosts = await communityModel.selectOtherPost(pool, user_id);
         return communityPosts;
     } catch (error) {
         console.error("Error retrieving community posts: ", error);
