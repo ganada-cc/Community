@@ -88,7 +88,7 @@ exports.getWorryList = async function (req, res) {
 
     try {
         if (!req.query.page || !req.query.page1) {
-          return res.redirect(`${req.path}?page=1&page1=1`);
+          return res.redirect(`${req.originalUrl}?page=1&page1=1`);
         }
         let page = req.query.page;
         let page1 = req.query.page1;
@@ -126,7 +126,7 @@ exports.getInfoList = async function (req, res) {
 
     try {
         if (!req.query.page || !req.query.page1) {
-          return res.redirect(`${req.path}?page=1&page1=1`);
+         return res.redirect(`${req.originalUrl}?page=1&page1=1`);
         }
         let page = req.query.page;
         let page1 = req.query.page1;
