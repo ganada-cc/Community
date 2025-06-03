@@ -135,24 +135,26 @@ async function getMyWorryList(pool, user_id, page) {
 
 // 날짜 포맷 함수
 function formatDate(dateTimeString) {
-  const originalDate = new Date(dateTimeString);
-  const year = originalDate.getFullYear();
-  const month = String(originalDate.getMonth() + 1).padStart(2, '0');
-  const day = String(originalDate.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-}
-function formatTime(dateTimeString) {
-  const originalDate = new Date(dateTimeString).toLocaleString('en-US', {
+  const date = new Date(dateTimeString);
+  const formatter = new Intl.DateTimeFormat('en-CA', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
     timeZone: 'Asia/Seoul',
   });
-  
-  const hours = new Date(originalDate).getHours();
-  const minutes = new Date(originalDate).getMinutes();
+  return formatter.format(date); // 예: "2025-06-04"
+}
 
-  const formattedHours = String(hours).padStart(2, '0');
-  const formattedMinutes = String(minutes).padStart(2, '0');
+function formatTime(dateTimeString) {
+  const formatter = new Intl.DateTimeFormat('en-GB', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+    timeZone: 'Asia/Seoul',
+  });
 
-  return `${formattedHours}:${formattedMinutes}`;
+  const date = new Date(dateTimeString);
+  return formatter.format(date); // 예: "13:45"
 }
 
 async function insertBoardInfo(pool, insertBoardParams){
