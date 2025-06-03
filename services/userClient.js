@@ -35,6 +35,7 @@ async function getRelationFromUserService(userId) {
   });
 }
 
+
 // const axios = require('axios');
 
 // async function getRelationFromUserService(userId, token) {
