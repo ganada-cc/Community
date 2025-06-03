@@ -6,7 +6,7 @@ const querystring = require('querystring');
 
 //게시글 세부 조회 + 댓글 조회
 exports.getCommunity = async function (req, res) {
-    const user_id = "test";
+    const user_id = req.headers['x-user-id'];
     
       const board_id = req.params.board_id;
       const title = req.params.title;
@@ -35,7 +35,7 @@ exports.getCommunity = async function (req, res) {
 }
 
 exports.getWrite = async function (req, res) {
-  const user_id = "test";
+  const user_id = req.headers['x-user-id'];
    
       const board_id = req.params.board_id;
       const title = req.params.title;
@@ -65,7 +65,7 @@ exports.getWrite = async function (req, res) {
 
 //게시글 고민상담소 리스트 조회
 exports.getWorryList = async function (req, res) {
-  const user_id = "test";
+  const user_id = req.headers['x-user-id'];
       try {
           if (!req.query.page){
             const existingQueryString = req.query;
@@ -101,7 +101,7 @@ exports.getWorryList = async function (req, res) {
 
 //게시글 정보공유 리스트 조회
 exports.getInfoList = async function (req, res) {
-    const user_id = "test";
+    const user_id = req.headers['x-user-id'];
         try {
             if (!req.query.page){
               const existingQueryString = req.query;
@@ -147,7 +147,7 @@ exports.getComment = async function (req, res) {
 
 //게시글 작성
 exports.postBoard = async function (req, res) {
-      const user_id = "test";
+    const user_id = req.headers['x-user-id'];
     var updated_at = new Date(); 
     console.log(updated_at);
 
@@ -200,7 +200,7 @@ exports.postBoard = async function (req, res) {
       }
   };
   exports.postComment = async function (req, res) {
-    const user_id = "test";
+    const user_id = req.headers['x-user-id'];
         // console.log(req.body);
         // var updated_at = new Date(); 
         // console.log(updated_at);
