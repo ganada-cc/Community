@@ -10,8 +10,9 @@ exports.getCommunity = async function (req, res) {
 
     if (!user_id) {
         console.log('⚠️ x-user-id 헤더가 없습니다!');
-         return res.redirect('/');
+        return res.send(baseResponse.USER_USERIDX_EMPTY);
     }
+    if (parseInt(user_id) <= 0) return res.send(baseResponse.USER_USERIDX_LENGTH);
 
     const board_id = req.params.board_id;
     const title = req.params.title;
@@ -44,7 +45,7 @@ exports.getWrite = async function (req, res) {
 
     if (!user_id) {
         console.log('⚠️ x-user-id 헤더가 없습니다!');
-        return res.redirect('/');
+        return res.send(baseResponse.USER_USERIDX_EMPTY);
     }
     
     const board_id = req.params.board_id;
@@ -81,8 +82,9 @@ exports.getWorryList = async function (req, res) {
 
     if (!user_id) {
         console.log('⚠️ x-user-id 헤더가 없습니다!');
-         return res.redirect('/');
+        return res.send(baseResponse.USER_USERIDX_EMPTY);
     }
+    if (parseInt(user_id) <= 0) return res.send(baseResponse.USER_USERIDX_LENGTH);
 
     try {
         if (!req.query.page || !req.query.page1) {
@@ -118,8 +120,9 @@ exports.getInfoList = async function (req, res) {
 
     if (!user_id) {
         console.log('⚠️ x-user-id 헤더가 없습니다!');
-        return res.redirect('/');
+        return res.send(baseResponse.USER_USERIDX_EMPTY);
     }
+    if (parseInt(user_id) <= 0) return res.send(baseResponse.USER_USERIDX_LENGTH);
 
     try {
         if (!req.query.page || !req.query.page1) {
@@ -165,8 +168,9 @@ exports.postBoard = async function (req, res) {
 
     if (!user_id) {
         console.log('⚠️ x-user-id 헤더가 없습니다!');
-        return res.redirect('/');
+        return res.send(baseResponse.USER_USERIDX_EMPTY);
     }
+    if (parseInt(user_id) <= 0) return res.send(baseResponse.USER_USERIDX_LENGTH);
 
     var updated_at = new Date(); 
     console.log(updated_at);
