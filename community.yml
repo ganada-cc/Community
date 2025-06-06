@@ -34,9 +34,9 @@ spec:
             name: community-secret
         resources:
           requests:
-            cpu: 50m
-          limits:
             cpu: 100m
+          limits:
+            cpu: 200m
 
 ---
 apiVersion: v1
